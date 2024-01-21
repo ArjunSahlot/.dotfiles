@@ -1,0 +1,1 @@
+{"lazy plugin":{"prefix":"lazy plugin","body":["return {","    {","        ${1:plugin_name},","        dependencies = ${2:plugin_dependencies},","        opts = {","            ${3:plugin_opts}","        },","        config = function()","            ${4:plugin_config}","        end","    }","}"]}}
