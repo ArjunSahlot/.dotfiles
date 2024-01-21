@@ -1,3 +1,12 @@
+local function getWords()
+    local wc = vim.api.nvim_eval("wordcount()")
+    if wc["visual_words"] then
+        return wc["visual_words"]
+    else
+        return wc["words"]
+    end
+end
+
 return {
     {
         'nvim-lualine/lualine.nvim',
@@ -134,6 +143,10 @@ return {
                 color = { fg = colors.magenta, gui = 'bold' },
                 file_status = true,
                 path = 1 -- relative
+            }
+
+            ins_left {
+                getWords
             }
 
             ins_left { 'location' }
