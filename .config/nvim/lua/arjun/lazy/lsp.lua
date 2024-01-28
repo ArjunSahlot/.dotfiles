@@ -45,6 +45,7 @@ return {
                 vim.keymap.set("n", "<leader>rr", function() vim.lsp.buf.references() end, opts)
                 vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
                 vim.keymap.set({"n", "i"}, "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+                vim.keymap.set("n", "<leader>lr", function() vim.diagnostic.reset() end, opts)
             end)
 
             require('mason').setup({})
