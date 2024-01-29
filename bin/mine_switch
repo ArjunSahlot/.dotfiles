@@ -1,0 +1,25 @@
+#!/home/arjun/.virtualenvs/general/bin/python3
+
+from pathlib import Path
+
+MODS_DIR = Path(Path.home() / ".minecraft" / "mods")
+SINGLE = MODS_DIR / "single"
+DEFAULT = MODS_DIR / "default"
+MODS = list(MODS_DIR.glob("*.jar"))
+CURR_DEFAULT = "fabric" in "".join(map(str, MODS))
+
+PREV = "DEFAULT" if CURR_DEFAULT else "SINGLE"
+NOW = "SINGLE" if CURR_DEFAULT else "DEFAULT"
+print(f"Previous: {PREV}")
+print(f"Now: {NOW}")
+
+RELOC_BACK = DEFAULT if CURR_DEFAULT else SINGLE
+RELOC_FRONT = SINGLE if CURR_DEFAULT else DEFAULT
+
+for mod in MODS:
+    mod.rename(RELOC_BACK / mod.name)
+
+for mod in RELOC_FRONT.iterdir():
+    if CURR_DEFAULT and "magnesium" in mod.name:
+        continue
+    mod.rename(MODS_DIR / mod.name)

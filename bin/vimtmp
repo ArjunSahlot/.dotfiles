@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+
+import tempfile
+import subprocess
+import sys
+
+ext = ".py"
+if len(sys.argv) > 1:
+    ext = "." + sys.argv[1]
+
+tmp = tempfile.NamedTemporaryFile(suffix=ext)
+
+subprocess.call(["nvim", tmp.name])
+
+tmp.close()

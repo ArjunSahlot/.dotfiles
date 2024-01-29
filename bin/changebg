@@ -1,0 +1,15 @@
+#!/bin/bash
+
+dark_bg="/home/arjun/Pictures/darkbg.jpg"
+white_bg="/home/arjun/Pictures/whitebg.png"
+current_bg=$(gsettings get org.gnome.desktop.background picture-uri)
+
+if [[ $current_bg == *"darkbg.jpg"* ]]; then
+	echo "OLD BACKGROUND: DARK"
+	gsettings set org.gnome.desktop.background picture-uri "file:///$white_bg"
+	echo "NEW BACKGROUND: WHITE" 
+else
+	echo "OLD BACKGROUND: WHITE" 
+	gsettings set org.gnome.desktop.background picture-uri "file:///$dark_bg"
+	echo "NEW BACKGROUND: DARK"
+fi

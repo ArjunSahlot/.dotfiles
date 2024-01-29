@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+read -r title
+read -r notification
+
+notify-send "$title" "$notification" "$@"

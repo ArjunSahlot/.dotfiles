@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+TEMP=$(sensors | grep -i "Core 1:" | awk '{print $3}' | cut -c 2-3)
+CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
+RAM_USAGE=$(free | grep Mem | awk '{print $3/$2 * 100.0}')
+SWAP_USAGE=$(free | grep Swap | awk '{print $3/$2 * 100.0}')
+ROOT_USAGE=$(df -h | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | cut -d'%' -f1 | sed -n 2p)
+HOME_USAGE=$(df -h | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | cut -d'%' -f1 | sed -n 3p)
+FAN_SPEED=$(sensors | grep -i cpu_fan | awk '{print $2}')
+
+if [ "$1" == "list" ]; then
+    echo "Temp: $TEMP°C"
+    echo "CPU Usage: $CPU_USAGE%"
+    echo "RAM Usage: $RAM_USAGE%"
+    echo "Swap Usage: $SWAP_USAGE%"
+    echo "Root Usage: $ROOT_USAGE%"
+    echo "Home Usage: $HOME_USAGE%"
+    echo "Fan Speed: $FAN_SPEED RPM"
+fi
+
+MAX_TEMP=70
+MAX_CPU_USAGE=90
+MAX_RAM_USAGE=90
+MAX_SWAP_USAGE=90
+MAX_ROOT_USAGE=85
+MAX_HOME_USAGE=85
+MAX_FAN_SPEED=3500
+
+compare() {
+    echo "$1 > $2" | bc -l
+}
+
+
+if [ $(compare $TEMP       $MAX_TEMP)       -eq 1 ] || \
+   [ $(compare $CPU_USAGE  $MAX_CPU_USAGE)  -eq 1 ] || \
+   [ $(compare $RAM_USAGE  $MAX_RAM_USAGE)  -eq 1 ] || \
+   [ $(compare $SWAP_USAGE $MAX_SWAP_USAGE) -eq 1 ] || \
+   [ $(compare $ROOT_USAGE $MAX_ROOT_USAGE) -eq 1 ] || \
+   [ $(compare $HOME_USAGE $MAX_HOME_USAGE) -eq 1 ] || \
+   [ $(compare $FAN_SPEED  $MAX_FAN_SPEED)  -eq 1 ]; then
+    exit 0
+else
+    exit 1
+fi
+

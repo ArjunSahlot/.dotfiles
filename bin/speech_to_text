@@ -1,0 +1,76 @@
+#!/home/arjun/.virtualenvs/general/bin/python3
+
+import os
+import threading
+
+import speech_recognition as sr
+from pynput.keyboard import Listener
+from random_utils.funcs import crash
+from pyautogui import typewrite, press
+
+
+def check_key(key):
+    if hasattr(key, "_name_"):
+        if key._name_ == "esc":
+            crash()
+    elif hasattr(key, "char"):
+        if key.char == "q":
+            crash()
+
+
+def monitor_keys():
+    with Listener(on_press=check_key) as l:
+        l.join()
+
+
+threading.Thread(target=monitor_keys).start()
+
+recog = sr.Recognizer()
+cap = True
+
+while True:
+    try:
+        with sr.Microphone(18) as source:
+            recog.adjust_for_ambient_noise(source, duration=0.1)
+            audio = recog.listen(source)
+            text = recog.recognize_google(audio).lower()
+            if text:
+                if cap:
+                    text = text.capitalize()
+                    cap = False
+
+                if text in ("new line", "enter", "return"):
+                    press("enter")
+                    break
+                elif text in ("quotes", "quote", "double quotes", "double quote"):
+                    typewrite('"')
+                    break
+                elif text in ("single quotes", "single quote"):
+                    typewrite("'")
+                    break
+                elif text in ("period", "fullstop"):
+                    press("backspace")
+                    typewrite(". ")
+                    cap = True
+                    break
+                elif text == "asterisk":
+                    typewrite("*")
+                    break
+                elif text == "ampersand":
+                    typewrite("&")
+                    break
+                elif text == "percent":
+                    typewrite("%")
+                    break
+
+                if text.startswith("command"):
+                    if " " in text:
+                        os.system(text.split(" ", 1)[1])
+                else:
+                    typewrite(text + " ")
+
+    except sr.RequestError as e:
+        print(f"Could not request results: {e}")
+
+    except sr.UnknownValueError:
+        print("Unknown error occurred")

@@ -1,0 +1,10 @@
+#!/usr/bin/python3
+
+import sys
+import shutil
+from pathlib import Path
+
+OBSIDIAN_DIR = Path("/".join(sys.argv[1:])) / ".obsidian"
+
+shutil.rmtree(OBSIDIAN_DIR)
+shutil.copytree(Path.home() / ".obsidian", OBSIDIAN_DIR) 

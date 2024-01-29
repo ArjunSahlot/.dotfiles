@@ -1,0 +1,57 @@
+#!/usr/bin/python3
+
+import os
+import sys
+import argparse
+import pyperclip
+
+parser = argparse.ArgumentParser("copyfile", description="Copy a file to the clipboard")
+parser.add_argument("file", metavar="file", type=str, nargs="+", help="File to copy to clipboard")
+parser.add_argument("--lines", "-l", type=int, help="Number of lines to copy from top", required=False)
+parser.add_argument("--bottom-lines", "-b", type=int, help="Number of to copy from bottom", required=False)
+parser.add_argument("--reverse", "-r", help="Copy file in reverse", action="store_true", required=False)
+parser.add_argument("--output", "-o", help="Output what was copied", action="store_true", required=False)
+parser.add_argument("--no-title", "-nt", help="Remove titles at the top of files", action="store_true", required=False)
+args = parser.parse_args()
+
+total = ""
+
+for file in args.file:
+    # check if file exists
+    if not os.path.isfile(file):
+        print(f"File does not exist: {args.file}", file=sys.stderr)
+        quit()
+
+    # read this file
+    with open(file, "r") as f:
+        if (lines := f.read()):
+            output = lines.strip().split("\n")
+        else:
+            print(f"Empty file: {args.file}")
+
+    # modify it based on arguments
+    if args.lines:
+        output = output[:args.lines]
+    elif args.bottom_lines:
+        output = output[:-args.bottom_lines]
+
+    if args.reverse:
+        output = reversed(output)
+
+    output = "\n".join(output)
+
+    if args.no_title:
+        total += "\n\n" + output
+    else:
+        total += "\n\n\n[" + file + "]\n\n" + output
+
+if args.no_title:
+    total = total[2:]
+else:
+    total = total[3:]
+
+pyperclip.copy(total)
+
+if args.output:
+    print(total)
+

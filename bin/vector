@@ -1,0 +1,74 @@
+#!/usr/bin/python3
+
+import time
+import pyautogui
+from pynput import mouse
+
+def onclick(x, y, button, pressed):
+    if not new:
+        print("No answer generated yet.")
+        return
+    if button == mouse.Button.left and pressed:
+        print("Clicked on input box! Entering in values!")
+        for num in new:
+            time.sleep(0.1)
+            pyautogui.write(str(num))
+            time.sleep(0.1)
+            pyautogui.press("tab")
+        pyautogui.press("enter")
+        print("Values entered!")
+        return False
+
+while True:
+    inp = input("Loncapa vector input: ")
+
+    try:
+        b = None
+        if "and" in inp:
+            parts = inp.split(" and ")
+            b = list(map(float, parts[1][parts[1].find("\\langle")+8:parts[1].find("\\rangle")].strip().split(", ")))
+        else:
+            parts = [inp]
+
+        a = list(map(float, parts[0][parts[0].find("\\langle")+8:parts[0].find("\\rangle")].strip().split(", ")))
+        print(f"Vector A: {a}")
+        print(f"Vector B: {b}")
+
+        option = int(input("""Options:
+1. Add
+2. Subtract
+3. Dot
+4. Cross
+5. Magnitude
+:"""))
+
+        new = []
+        if option == 1:
+            am = float(input("A multiplier: "))
+            bm = float(input("B multiplier: "))
+            for i in range(len(a)):
+                new.append(am*a[i]+bm*b[i])
+        elif option == 2:
+            am = float(input("A multiplier: "))
+            bm = float(input("B multiplier: "))
+            for i in range(len(a)):
+                new.append(am*a[i]-bm*b[i])
+        elif option == 3:
+            new.append(sum([a[i]*b[i] for i in range(len(a))]))
+        elif option == 4:
+            if len(a) == 2:
+                new.extend([0, 0, a[0]*b[1]-a[1]*b[0]])
+            else:
+                new.extend([a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]])
+        elif option == 5:
+            new.append(sum([i**2 for i in a])**0.5)
+
+        print(f"Answer: {', '.join(map(lambda x: str(round(x, 3)), new))}")
+        print("Waiting for user to click on loncapa input box...")
+        with mouse.Listener(on_click=onclick) as listener:
+            listener.join()
+
+    except Exception as e:
+        print(e)
+        print("Try again")
+

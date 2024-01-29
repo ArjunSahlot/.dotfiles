@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+
+from io import BytesIO
+import argparse
+import qrcode
+from pyclip import copy, paste
+
+parser = argparse.ArgumentParser("QR Generator", "make a qr code of a link", "Utility ", "dsdf")
+parser.add_argument("data", type=str, help="Make a qr code of this, usually a link", nargs="?")
+args = parser.parse_args()
+
+qr = qrcode.QRCode(version=1, box_size=100, border=2)
+qr.add_data(args.data or paste())
+qr.make()
+img = qr.make_image(fill="black", back_color="white")
+img.show()
+
+# output = BytesIO()
+# img.convert("RGB").save(output, "BMP")
+# data = output.getvalue()[14:]
+# output.close()
+
+# copy(data)

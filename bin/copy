@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+
+from pyperclip import copy
+
+string = ""
+while True:
+    try:
+        current = input()
+        string += current + "\n"
+    except EOFError:
+        break
+
+copy(string)
+

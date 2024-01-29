@@ -1,0 +1,93 @@
+#!/usr/bin/python3
+
+"""
+#TODO: Put this on github
+Add more options like:
+temp -c (create a temp file)
+temp -a (add existing temp file)
+temp -l (list all temp files)
+temp (generate a file from template)
+
+.templates folder is stored in home directory.
+It contains subfolders for certain aspects.
+Like if I want template files for competitive programming, and within that for certain languages.
+"""
+
+import argparse
+from pathlib import Path
+import shutil
+import os
+from subprocess import call
+
+
+TEMPLATES_DIR = Path.home() / ".templates"
+EDITOR = os.environ.get("EDITOR", "vim")
+
+if not TEMPLATES_DIR.is_dir():
+    TEMPLATES_DIR.mkdir()
+    print("You don't have any templates yet. Create one by adding to the .templates folder in your home directory.")
+
+parser = argparse.ArgumentParser(description="Create template files for a new project")
+parser.add_argument("-p", "--path", nargs="+", help="Location of the template file")
+parser.add_argument("-c", "--create", help="Name of the new file", action=argparse.BooleanOptionalAction)
+parser.add_argument("-e", "--edit", help="Edit a certain template file using vim", action=argparse.BooleanOptionalAction)
+parser.add_argument("-n", "--new", help="Create a new file from an existing template", action=argparse.BooleanOptionalAction)
+parser.add_argument("-r", "--remove", help="Remove a template file", action=argparse.BooleanOptionalAction)
+parser.add_argument("-l", "--list", help="List out all the templates in a tree pattern", action=argparse.BooleanOptionalAction)
+args = parser.parse_args()
+
+
+space =  '    '
+branch = '│   '
+tee =    '├── '
+last =   '└── '
+
+def tree(dir_path, prefix=""):
+    contents = list(dir_path.iterdir())
+    pointers = [tee] * (len(contents) - 1) + [last]
+    for pointer, path in zip(pointers, contents):
+        yield prefix + pointer + path.name
+        if path.is_dir():
+            extension = branch if pointer == tee else space
+            yield from tree(path, prefix=prefix+extension)
+
+path = TEMPLATES_DIR
+if any((args.create, args.edit, args.new, args.remove)):
+    if args.path is None:
+        print("Path is required for this operation.")
+        quit()
+    path = TEMPLATES_DIR / "/".join(args.path)
+
+if args.create:
+    if path.is_file():
+        print(f"Template already exists. To modify use 'temp -e -p {args.path}'")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.touch()
+    print("Success")
+
+if args.edit:
+    if not path.is_file():
+        print("Template does not exist. Create one with 'temp -c -p {args.path}'")
+    
+    call([EDITOR, str(path)])
+
+if args.new:
+    if path.is_file():
+        shutil.copyfile(path, input(f"Where do you want to copy {'/'.join(args.path)} to: "))
+        print("Success")
+    else:
+        print(f"Invalid template path: {path}")
+
+if args.remove:
+    if not path.is_file():
+        print("Template already doesn't exist.")
+    else:
+        os.remove(path)
+        print("Success")
+    print("If you want to delete a directory structure, then you will have to delete it manually in the $HOME/.templates folder.")
+
+if args.list:
+    print(".templates")
+    for line in tree(TEMPLATES_DIR):
+        print(line)
+
