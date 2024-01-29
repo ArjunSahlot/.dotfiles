@@ -41,5 +41,6 @@ eval "$(SHELL=/bin/sh lesspipe)"
 eval "$(zoxide init bash)"
 eval "$(thefuck --alias)"
 eval "$(github-copilot-cli alias -- "$0")"
+eval "$(starship init bash)"
 
 set -o vi

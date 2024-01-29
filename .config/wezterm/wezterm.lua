@@ -1,28 +1,18 @@
-local wezterm = require 'wezterm'
+local wezterm = require("wezterm")
+local config = wezterm.config_builder()
 
-local mux = wezterm.mux
-local action = wezterm.action
+wezterm.log_info("reloading")
 
-local helpers = require 'helpers'
+require('appearance').setup(config)
+require('links').setup(config)
 
+config.front_end = "WebGpu"
+config.webgpu_power_preference = "HighPerformance"
 
-local config = {}
+config.underline_thickness = 2
 
-
-config.font = wezterm.font 'UbuntuMono Nerd Font'
-config.font_size = 14.0
-config.color_scheme = 'OneDark (base16)'
-config.window_background_opacity = 1
-config.enable_scroll_bar = true
-
-config.inactive_pane_hsb = {
-    saturation = 0.8,
-    brightness = 0.7,
-}
-
-config.hide_tab_bar_if_only_one_tab = true
-
-
-helpers.apply_to_config(config)
+config.font_size = 12
+config.force_reverse_video_cursor = true
+config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
 return config

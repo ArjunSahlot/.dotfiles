@@ -23,4 +23,4 @@ alias ping="gping"
 alias i3config="vim ~/.config/i3/config"
 alias diff="diff-so-fancy"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
+alias wezconf='vim ~/.config/wezterm/'
