@@ -1,0 +1,70 @@
+format = """
+[](fg:#282C34)\
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+$cmd_duration\
+${custom.hot}\
+$character\
+"""
+
+palette = "onedark"
+
+[palettes.onedark]
+foreground = "#252931"
+background = "#282C34"
+gutter = "#1D2025"
+guide = "#CCCCCC"
+accent = "#528BFF"
+default = "#ABB2BF"
+cyan = "#56B6C2"
+blue = "#61AFEF"
+purple = "#C678DD"
+green = "#98C379"
+rose = "#E06C75"
+orange = "#D19A66"
+red = "#BE5046"
+gold = "#E2BE7A"
+
+[directory]
+truncation_length = 20
+truncate_to_repo = false
+style = "fg:accent bg:background"
+format = "[ $read_only$path ]($style)"
+disabled = false
+
+[git_branch]
+style = "fg:purple bg:gutter"
+format = '[](bg:#1D2025 fg:#282C34)[ $symbol$branch ]($style)'
+disabled = false
+
+[git_status]
+style = "fg:purple bg:gutter"
+format = '([$all_status$ahead_behind ]($style))'
+disabled = false
+
+[git_metrics]
+added_style = "fg:#33FF00 bg:background"
+deleted_style = "fg:#FF3300 bg:background"
+format = '[](bg:#282C34 fg:#1D2025)([ +$added ]($added_style))([-$deleted ]($deleted_style))'	
+disabled = false
+
+[cmd_duration]
+style = "fg:default bg:gutter"
+format = '[](bg:#1D2025 fg:#282C34)[ $duration ]($style)'
+show_milliseconds = true
+min_time = 0
+show_notifications = true
+min_time_to_notify = 30_000
+disabled = false
+
+[character]
+format = ' $symbol '
+disabled = false
+
+[custom.hot]
+description = "Check if the system is on FIRE"
+when = "hot"
+format = "🔥"
+disabled = false

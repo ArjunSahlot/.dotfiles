@@ -20,8 +20,8 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 export MODULAR_HOME="/home/arjun/.modular"
 export LESS='-R'
 export PYGMENTIZE_STYLE='one-dark'
-export VISUAL=vim
-export EDITOR=vim
+export VISUAL=nvim
+export EDITOR=nvim
 export HISTSIZE=100000
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 
