@@ -11,7 +11,10 @@ local function scheme_for_appearance(appearance)
 end
 
 function M.setup(config)
-    config.font = wezterm.font 'JetBrainsMono Nerd Font'
+    config.font = wezterm.font {
+        family = 'JetBrainsMono Nerd Font',
+        harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+    }
     config.color_scheme = 'OneDark (base16)'
     config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
 

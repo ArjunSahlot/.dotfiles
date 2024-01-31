@@ -63,7 +63,7 @@ return {
             })
 
             local cmp = require('cmp')
-            local cmp_select = { behavior = cmp.SelectBehavior.Select }
+            local cmp_select = { behavior = cmp.SelectBehavior.Insert }
 
             cmp.setup({
                 sources = {
