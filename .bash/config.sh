@@ -13,6 +13,7 @@ export PATH=$PATH:/home/arjun/.local/bin
 export PATH=$PATH:/home/arjun/.codon/bin
 export PATH=$PATH:/home/arjun/.modular/pkg/packages.modular.com_mojo/bin
 export PATH=$PATH:/home/arjun/apps/nvim-linux64/bin
+export PATH=$PATH:/home/arjun/perl5/bin
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/var/lib/flatpak/exports/share
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/arjun/.local/share/flatpak/exports/share
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -25,6 +26,10 @@ export EDITOR=nvim
 export HISTSIZE=100000
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 
+export PERL5LIB=$PERL5LIB:/home/arjun/perl5/lib/perl5
+export PERL_LOCAL_LIB_ROOT=$PERL_LOCAL_LIB_ROOT:/home/arjun/perl5
+export PERL_MB_OPT="--install_base \"/home/arjun/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=/home/arjun/perl5"
 
 
 [ -f ~/.inshellisense/key-bindings.bash ] && source ~/.inshellisense/key-bindings.bash

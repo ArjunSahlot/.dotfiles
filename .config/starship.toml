@@ -5,9 +5,9 @@ $git_branch\
 $git_status\
 $git_metrics\
 $cmd_duration\
-${custom.hot}\
 $character\
 """
+# ${custom.hot}\
 
 palette = "onedark"
 
@@ -36,7 +36,7 @@ disabled = false
 
 [git_branch]
 style = "fg:purple bg:gutter"
-format = '[](bg:#1D2025 fg:#282C34)[ $symbol$branch ]($style)'
+format = '[](bg:gutter fg:background)[ $symbol$branch ]($style)'
 disabled = false
 
 [git_status]
@@ -47,12 +47,12 @@ disabled = false
 [git_metrics]
 added_style = "fg:#33FF00 bg:background"
 deleted_style = "fg:#FF3300 bg:background"
-format = '[](bg:#282C34 fg:#1D2025)([ +$added ]($added_style))([-$deleted ]($deleted_style))'	
+format = '[](bg:background fg:gutter)([ +$added ]($added_style))([-$deleted ]($deleted_style))[](bg:gutter fg:background)'
 disabled = false
 
 [cmd_duration]
 style = "fg:default bg:gutter"
-format = '[](bg:#1D2025 fg:#282C34)[ $duration ]($style)'
+format = '[ $duration]($style)'
 show_milliseconds = true
 min_time = 0
 show_notifications = true
@@ -63,8 +63,8 @@ disabled = false
 format = ' $symbol '
 disabled = false
 
-[custom.hot]
-description = "Check if the system is on FIRE"
-when = "hot"
-format = "🔥"
-disabled = false
+# [custom.hot]
+# description = "Check if the system is on FIRE"
+# when = "hot"
+# format = "🔥"
+# disabled = false

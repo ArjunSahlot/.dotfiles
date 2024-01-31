@@ -20,7 +20,8 @@ alias mkfunction="vim ~/.bash/functions.sh"
 alias srcpy="source env/bin/activate"
 alias mkenv="python -m venv env"
 alias ping="gping"
-alias i3config="vim ~/.config/i3/config"
+alias i3conf="vim ~/.config/i3/config"
 alias diff="diff-so-fancy"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias wezconf='vim ~/.config/wezterm/'
+alias starconf='vim ~/.config/starship.toml'
