@@ -48,7 +48,7 @@ font-4 = Iosevka Nerd Font:style=Regular:size=16;6
 scroll-up = i3.next
 scroll-down = i3.prev
 
-modules-left = left filesystem slash space slash cpu slash space slash memory slash space slash temperature slash space slash xworkspaces-0 right
+modules-left = left filesystem slash space slash cpu slash space slash memory slash space slash temperature slash space slash i3 right
 modules-center = left xwindows right 
 modules-right = left pulseaudio slash space slash network slash space slash battery slash space slash time slash space slash date right
 
@@ -94,8 +94,8 @@ font-4 = Iosevka Nerd Font:style=Regular:size=16;6
 scroll-up = i3.next
 scroll-down = i3.prev
 
-modules-left = left filesystem slash space slash cpu slash space slash memory slash space slash temperature slash space slash xworkspaces-1 right
-modules-center = left spotify space previous playpause next right 
+modules-left = left filesystem slash space slash cpu slash space slash memory slash space slash temperature slash space slash i3 right
+modules-center = left xwindows right
 modules-right = left pulseaudio slash space slash network slash space slash battery slash space slash time slash space slash date right
 
 wm-restock = i3
