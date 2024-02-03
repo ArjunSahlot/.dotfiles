@@ -23,17 +23,20 @@ default_floating_border pixel 0
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 # font pango:DejaVu Sans Mono 8
 
-exec --no-startup-id picom
+exec picom
 
-# display
-exec xrandr --output HDMI-1 --off
-exec xrandr --output eDP-1 --left-of HDMI-2
-
-# enable while mouse
+# enable trackpad while mouse
 exec xinput set-prop 16 374 0
 
 # natural scrolling
 exec xinput set-prop 16 345 1
+
+# double/triple tap -> right/middle click
+exec xinput set-prop 16 377 0 1
+
+# tap to click
+exec xinput set-prop 16 366 1
+
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -57,6 +60,10 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
+# brightness controls
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -67,11 +74,21 @@ bindsym $mod+Shift+x exec --no-startup-id ~/bin/lock -r 25 -d 20
 bindsym $mod+c exec gpick
 for_window [class="Gpick"] floating enable
 
+# always open discord in workspace 8
+for_window [class="discord"] move container to workspace $ws8
+
 # start a terminal
 bindsym $mod+Return exec wezterm
 
 # kill focused window
 bindsym $mod+Shift+q kill
+
+# caps -> esc
+exec --no-startup-id setxkbmap -option caps:escape
+
+# always run copyq
+exec_always --no-startup-id start_copyq
+bindsym $mod+Shift+c exec rofi-copyq
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
@@ -80,6 +97,8 @@ bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+
+
 
 # change focus
 bindsym $mod+h focus left
@@ -169,7 +188,7 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+# bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
@@ -216,6 +235,15 @@ bindsym Print exec "flameshot gui"
 # bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 5%- unmute; exec --no-startup-id notify-send "Volume Decreased" "$(amixer get Master | grep -o '[0-9]*%' | head -1)"
 # bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle; exec --no-startup-id notify-send "Volume Muted"
 
-# polybar
-exec_always --no-startup-id ~/.config/polybar/scripts/start.sh &
+# display + polybar
+exec_always --no-startup-id xrandr --output HDMI-1 --off
+
+# if HDMI-2 is connected:
+exec_always --no-startup-id external_connected && xrandr --output HDMI-2 --auto
+exec_always --no-startup-id external_connected && xrandr --output eDP-1 --left-of HDMI-2
+exec_always --no-startup-id external_connected && ~/.config/polybar/scripts/start.sh &
+
+# if HDMI-2 is disconnected:
+exec_always --no-startup-id external_disconnected && xrandr --output HDMI-2 --off
+exec_always --no-startup-id external_disconnected && ~/.config/polybar/scripts/start.sh --only-primary &
 

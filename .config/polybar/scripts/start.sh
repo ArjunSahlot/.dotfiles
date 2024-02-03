@@ -8,5 +8,9 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 
 # Launch polybar
 polybar primary-top &
-polybar external-top &
+
+# if '--only-primary' flag doesn't exist
+if [ "$1" != "--only-primary" ]; then
+    polybar external-top &
+fi
 
