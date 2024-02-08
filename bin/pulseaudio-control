@@ -45,7 +45,7 @@ SINK_OR_SOURCE="ink"
 
 # Environment & global constants for the script
 export LC_ALL=C  # Some calls depend on English outputs of pactl
-END_COLOR="%{F-}%{u-}"  # For Polybar colors
+END_COLOR="%{u-}%{F-}"  # For Polybar colors
 
 
 # Saves the currently default node into a variable named `curNode`. It will
