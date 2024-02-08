@@ -41,6 +41,7 @@ return {
             scope = {
                 highlight = highlight,
                 show_start = false,
+                show_end = false,
             }
         })
 

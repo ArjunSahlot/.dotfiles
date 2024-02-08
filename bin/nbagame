@@ -1,0 +1,230 @@
+#!/usr/bin/python3
+
+from time import sleep
+import sys
+from argparse import ArgumentParser
+from nba_api.live.nba.endpoints.scoreboard import ScoreBoard
+from nba_api.stats.static import teams
+from nba_api.live.nba.endpoints.boxscore import BoxScore
+
+
+TEAM_COLORS = {
+    "ATL": "#e14434",
+    "BOS": "#007a33",
+    "BKN": "#000000",
+    "CHA": "#006666",
+    "CHI": "#ce0d0d",
+    "CLE": "#860038",
+    "DAL": "#004fb4",
+    "DEN": "#0d2240",
+    "DET": "#ca1024",
+    "GSW": "#ffc72c",
+    "HOU": "#ce1141",
+    "IND": "#002d62",
+    "LAC": "#c8102e",
+    "LAL": "#552582",
+    "MEM": "#5d76a9",
+    "MIA": "#98002e",
+    "MIL": "#00471b",
+    "MIN": "#0c2340",
+    "NOP": "#e13a3e",
+    "NYK": "#f58426",
+    "OKC": "#1090d0",
+    "ORL": "#0073c0",
+    "PHI": "#005fcd",
+    "PHX": "#1d1160",
+    "POR": "#e03a3e",
+    "SAC": "#5b2b82",
+    "SAS": "#c4ced3",
+    "TOR": "#de0111",
+    "UTA": "#f9b900",
+    "WAS": "#002b5c",
+}
+
+
+def colorize(team, to_wrap, polybar=False, winner=False):
+    def term_fg(hex_color):
+        rgb = tuple(int(hex_color[i: i + 2], 16) for i in (1, 3, 5))
+        return f"\x1b[38;2;{rgb[0]};{rgb[1]};{rgb[2]}m"
+
+    def term_underline(hex_color):
+        rgb = tuple(int(hex_color[i: i + 2], 16) for i in (1, 3, 5))
+        return f"\x1b[38;2;{rgb[0]};{rgb[1]};{rgb[2]}m\x1b[4m"
+
+    def term_bg(hex_color):
+        rgb = tuple(int(hex_color[i: i + 2], 16) for i in (1, 3, 5))
+        return f"\x1b[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m"
+
+    def in_color(text, color):
+        return (
+            term_fg(color)
+            + (term_underline(color) if winner else "")
+            + text
+            + "\x1b[0m"
+        )
+
+    if t := teams.find_teams_by_nickname(team):
+        team = t[0]["abbreviation"]
+
+    if team not in TEAM_COLORS:
+        color = team
+    else:
+        color = TEAM_COLORS[team]
+
+    if polybar:
+        output = ""
+        output += "%{F" + color + "}"
+        if winner:
+            output += "%{R}"
+        output += to_wrap
+        if winner:
+            output += "%{R-}"
+        output += "%{F-}"
+        return output
+    else:
+        return in_color(to_wrap, color)
+
+
+def get_game(team, polybar=False, fire=False):
+    games = ScoreBoard().get_dict()
+    string = ""
+
+    for game in games["scoreboard"]["games"]:
+        home = game["homeTeam"]
+        away = game["awayTeam"]
+        if team in (
+            home["teamTricode"],
+            away["teamTricode"],
+            home["teamId"],
+            away["teamId"],
+            home["teamName"],
+            away["teamName"],
+            "list",
+        ):
+            game["gameStatusText"] = game["gameStatusText"].strip()
+
+            if "ET" in game["gameStatusText"]:
+                time = game["gameStatusText"].split(" ")[:2]
+
+                hours, minutes = map(int, time[0].split(":"))
+
+                time_change = False
+                if hours <= 3:
+                    hours = 12 - (3 - hours)
+                    # 3pm -> 12pm doesn't change time
+                    time_change = hours == 12
+                elif hours == 12:
+                    hours = 9
+                    time_change = True
+                else:
+                    hours -= 3
+
+                if time_change:
+                    time[1] = "AM" if time[1] == "PM" else "PM"
+
+                time[0] = f"{hours}:{minutes:02d}"
+
+                game["gameStatusText"] = " ".join(time).upper()
+
+            hcode = home["teamTricode"]
+            acode = away["teamTricode"]
+
+            hname = home["teamName"]
+            aname = away["teamName"]
+
+            hscore = home["score"]
+            ascore = away["score"]
+
+            status = game["gameStatusText"]
+
+            home_fire = ""
+            away_fire = ""
+
+            winner = None
+            if "final" in status.lower():
+                winner = "home" if hscore > ascore else "away"
+
+            if fire:
+                boxscore = BoxScore(game_id=game["gameId"]).get_dict()["game"]
+
+                for player in boxscore["homeTeam"]["players"]:
+                    minutes = player["statistics"]["minutes"][2:-1].split("M")
+                    minutes = int(minutes[0]) + float(minutes[1]) / 60
+                    if minutes < 1:
+                        continue
+                    if float(player["statistics"]["points"]) / minutes > 1:
+                        home_fire += "🔥"
+
+                for player in boxscore["awayTeam"]["players"]:
+                    minutes = player["statistics"]["minutes"][2:-1].split("M")
+                    minutes = int(minutes[0]) * 60 + float(minutes[1])
+                    if minutes < 1:
+                        continue
+                    if float(player["statistics"]["points"]) / minutes > 1:
+                        away_fire += "🔥"
+
+            if polybar:
+                out_home = colorize(
+                    hcode, f"{hcode} {hscore}", True, winner == "home")
+                out_away = colorize(
+                    acode, f"{ascore} {acode}", True, winner == "away")
+                out_status = colorize("#FF5577", "󰻃 ", True) + status
+                string += (
+                    f"{home_fire}{out_home}  {out_status}  {out_away}{away_fire}\n"
+                )
+            else:
+                out_hcode = colorize(hcode, hcode, False, winner == "home")
+                out_acode = colorize(acode, acode, False, winner == "away")
+
+                out_home = colorize(
+                    hcode, f"{hname} {hscore}", False, winner == "home")
+                out_away = colorize(
+                    acode, f"{ascore} {aname}", False, winner == "away")
+
+                string += f"{out_hcode} {home_fire} vs {away_fire} {out_acode}\n"
+                string += f"{out_home} - {out_away}\n"
+                string += f"{status}"
+
+                if team == "list":
+                    string += "\n-------------------\n"
+
+    return string
+
+
+if __name__ == "__main__":
+    parser = ArgumentParser(description="NBA game scores")
+    parser.add_argument(
+        "-t", "--team", help="Get the current game for a specific team")
+    parser.add_argument(
+        "-s", "--stream", help="Stream the game", action="store_true")
+    parser.add_argument(
+        "-p", "--polybar", help="Print the game for polybar", action="store_true"
+    )
+    parser.add_argument(
+        "-c", "--clutch", help="Only show games in the clutch", action="store_true"
+    )
+    parser.add_argument(
+        "-l",
+        "--list",
+        help="List all games, ignore everything else",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-f",
+        "--fire",
+        help="Add a fire emoji if a player is having a good game, pts>mins",
+        action="store_true",
+    )
+    args = parser.parse_args()
+
+    if args.list:
+        print(get_game("list", args.polybar, args.fire))
+        sys.exit(0)
+
+    if args.stream:
+        while True:
+            print(get_game(args.team, args.polybar, args.fire))
+            sleep(5)
+
+    if args.team:
+        print(get_game(args.team, args.polybar, args.fire))

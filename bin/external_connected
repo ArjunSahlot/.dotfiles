@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+xrandr | grep "HDMI-2 connected" > /dev/null && exit 0 || exit 1
+

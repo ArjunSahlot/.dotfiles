@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Function to print sensor information
+print_sensor_info() {
+    local sensor_name=$1
+    local sensor_path=$2
+    local sensor_value=$(cat "$sensor_path")
+
+    # Convert the sensor value to a more readable format (assuming the value is in millidegrees Celsius)
+    local temp_celsius=$(echo "scale=2; $sensor_value / 1000" | bc)
+
+    echo "Sensor: $sensor_name"
+    echo "Path: $sensor_path"
+    echo "Current Value: $temp_celsius°C"
+    echo "--------------------------------"
+}
+
+echo "Temperature Sensors Information"
+echo "--------------------------------"
+
+# Iterate over sensor files and print their information
+for i in /sys/class/hwmon/hwmon*/temp*_input; do
+    sensor_name=$(<"$(dirname "$i")/name")
+    label_file="${i%_*}_label"
+    
+    # Check if label file exists and set sensor_label accordingly
+    if [ -f "$label_file" ]; then
+        sensor_label=$(cat "$label_file")
+    else
+        sensor_label=$(basename "${i%_*}")
+    fi
+
+    print_sensor_info "$sensor_name - $sensor_label" "$i"
+done
+

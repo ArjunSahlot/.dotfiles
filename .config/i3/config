@@ -246,6 +246,12 @@ exec_always --no-startup-id external_connected && xrandr --output HDMI-2 --auto
 exec_always --no-startup-id external_connected && xrandr --output eDP-1 --left-of HDMI-2
 exec_always --no-startup-id external_connected && ~/.config/polybar/scripts/start.sh &
 
+# distribute workspaces to both monitors
+exec_always --no-startup-id external_connected && i3-msg "workspace 1; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 2; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 3; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 8; move workspace to output eDP-1"
+
 # if HDMI-2 is disconnected:
 exec_always --no-startup-id external_disconnected && xrandr --output HDMI-2 --off
 exec_always --no-startup-id external_disconnected && ~/.config/polybar/scripts/start.sh --only-primary &
