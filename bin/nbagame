@@ -75,10 +75,10 @@ def colorize(team, to_wrap, polybar=False, winner=False):
         output = ""
         output += "%{F" + color + "}"
         if winner:
-            output += "%{R}"
+            output += "%{u" + color + "}"
         output += to_wrap
         if winner:
-            output += "%{R-}"
+            output += "%{u-}"
         output += "%{F-}"
         return output
     else:
