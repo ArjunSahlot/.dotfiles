@@ -55,7 +55,7 @@ style = "fg:default bg:gutter"
 format = '[ $duration]($style)'
 show_milliseconds = true
 min_time = 0
-show_notifications = true
+show_notifications = false
 min_time_to_notify = 30_000
 disabled = false
 

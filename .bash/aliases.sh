@@ -25,3 +25,4 @@ alias diff="diff-so-fancy"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias wezconf='vim ~/.config/wezterm/'
 alias starconf='vim ~/.config/starship.toml'
+alias polyconf='vim ~/.config/polybar/config'

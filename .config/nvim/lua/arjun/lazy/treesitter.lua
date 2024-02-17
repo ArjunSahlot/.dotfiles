@@ -82,6 +82,10 @@ return {
 
                 -- HACK: lsp is crying about this
                 modules = {},
+                
+                indent = {
+                    enable = false
+                },
             })
         end
     }

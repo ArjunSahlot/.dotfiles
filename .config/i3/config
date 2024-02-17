@@ -80,6 +80,9 @@ for_window [class="Network Connections"] floating enable
 # always open discord in 
 for_window [class="discord"] move container to workspace $ws8
 
+# emoji picker
+bindsym $mod+period exec --no-startup-id rofimoji
+
 # start a terminal
 bindsym $mod+Return exec wezterm
 
@@ -100,8 +103,6 @@ bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
-
-
 
 # change focus
 bindsym $mod+h focus left
@@ -245,14 +246,31 @@ exec_always --no-startup-id xrandr --output HDMI-1 --off
 exec_always --no-startup-id external_connected && xrandr --output HDMI-2 --auto
 exec_always --no-startup-id external_connected && xrandr --output eDP-1 --left-of HDMI-2
 exec_always --no-startup-id external_connected && ~/.config/polybar/scripts/start.sh &
+exec_always --no-startup-id external_connected && xrandr --output eDP-1 --left-of HDMI-2
 
 # distribute workspaces to both monitors
 exec_always --no-startup-id external_connected && i3-msg "workspace 1; move workspace to output HDMI-2"
 exec_always --no-startup-id external_connected && i3-msg "workspace 2; move workspace to output HDMI-2"
 exec_always --no-startup-id external_connected && i3-msg "workspace 3; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 4; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 5; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 6; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 7; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 9; move workspace to output HDMI-2"
 exec_always --no-startup-id external_connected && i3-msg "workspace 8; move workspace to output eDP-1"
 
 # if HDMI-2 is disconnected:
 exec_always --no-startup-id external_disconnected && xrandr --output HDMI-2 --off
 exec_always --no-startup-id external_disconnected && ~/.config/polybar/scripts/start.sh --only-primary &
+
+# move all workspaces to eDP-1
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 1; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 2; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 3; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 4; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 5; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 6; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 7; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 8; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 9; move workspace to output eDP-1"
 

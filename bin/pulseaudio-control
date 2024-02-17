@@ -13,6 +13,8 @@ SINK_NICKNAME="Replaced by NODE_NICKNAME, see https://github.com/marioortizmaner
 
 # Defaults for configurable values, expected to be set by command-line arguments
 AUTOSYNC="no"
+COLOR_DEFAULT="%{F#8783d9}"
+END_DEFAULT_COLOR="%{F-}"
 COLOR_MUTED="%{F#6b6b6b}%{u#6b6b6b}"
 ICON_MUTED=
 ICON_NODE=
@@ -45,7 +47,7 @@ SINK_OR_SOURCE="ink"
 
 # Environment & global constants for the script
 export LC_ALL=C  # Some calls depend on English outputs of pactl
-END_COLOR="%{u-}%{F-}"  # For Polybar colors
+END_MUTED_COLOR="%{-u}%{F-}"  # For Polybar colors
 
 
 # Saves the currently default node into a variable named `curNode`. It will
@@ -383,18 +385,22 @@ function output() {
 
     getNickname "$curNode"
 
+
     # Showing the formatted message
+    content="$(eval echo "$FORMAT")"
+
     if [ "$IS_MUTED" = "yes" ]; then
         # shellcheck disable=SC2034
         VOL_ICON=$ICON_MUTED
-        content="$(eval echo "$FORMAT")"
         if [ -n "$COLOR_MUTED" ]; then
-            echo "${COLOR_MUTED}${content}${END_COLOR}"
+            echo "${COLOR_MUTED}${content}${END_MUTED_COLOR}"
         else
             echo "$content"
         fi
     else
-        eval echo "$FORMAT"
+        VOL_ICON="${COLOR_DEFAULT}${VOL_ICON}${END_DEFAULT_COLOR}"
+        content="$(eval echo "$FORMAT")"
+        echo "$content"
     fi
 }
 

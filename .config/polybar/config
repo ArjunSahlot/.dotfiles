@@ -44,12 +44,13 @@ font-1 = JetBrains Mono Nerd Font:style=Regular:size=22;5
 font-2 = JetBrains Mono Nerd Font:style=Regular:size=25;6
 font-3 = JetBrains Mono Nerd Font:style=Regular:size=16;4
 font-4 = Iosevka Nerd Font:style=Regular:size=16;6
+font-5 = Noto Color Emoji:style=Regular:size=16:scale=8;3
 
 scroll-up = i3.next
 scroll-down = i3.prev
 
 modules-left = left filesystem slash slash temperature slash slash cpu space space memory slash slash backlight space space battery slash slash i3 right
-modules-center = left nbagame slash slash github right 
+modules-center = left github right 
 modules-right = left audio-output space space audio-input slash slash wifi slash slash date-time right
 
 wm-restock = i3
@@ -90,6 +91,7 @@ font-1 = JetBrains Mono Nerd Font:style=Regular:size=20;4.5
 font-2 = JetBrains Mono Nerd Font:style=Regular:size=25;6
 font-3 = JetBrains Mono Nerd Font:style=Regular:size=16;4
 font-4 = Iosevka Nerd Font:style=Regular:size=16;6
+font-5 = Noto Color Emoji:style=Regular:size=16:scale=8;3
 
 scroll-up = i3.next
 scroll-down = i3.prev
