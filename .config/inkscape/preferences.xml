@@ -994,7 +994,7 @@
      org.inkscape.template.other.unit="px" />
   <group
      id="desktop"
-     style="fill:#000000;stroke-width:3.36">
+     style="fill:#bebebe;stroke-width:3.36">
     <group
        width="640"
        height="480"
@@ -1116,7 +1116,7 @@
      id="theme"
      defaultPreferDarkTheme="0"
      defaultIconTheme="Yaru"
-     defaultGtkTheme="Yaru-dark"
+     defaultGtkTheme="Yaru"
      narrowSpinButton="1"
      preferDarkTheme="1"
      darkTheme="1"

@@ -1,5 +1,4 @@
-require("arjun.set")
-require("arjun.remap")
-
-require("arjun.lazy_init")
+require("arjun.core.set")
+require("arjun.core.remap")
+require("arjun.core.lazy_init")
 

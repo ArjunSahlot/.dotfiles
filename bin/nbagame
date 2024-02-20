@@ -40,6 +40,8 @@ TEAM_COLORS = {
     "TOR": "#DE0111",
     "UTA": "#F9B900",
     "WAS": "#002B5C",
+    "EST": "#FFD700",
+    "WST": "#C0C0C0",
 }
 
 
@@ -158,10 +160,12 @@ def get_game(team, polybar=False, fire=False):
 
             if fire:
                 try:
-                    boxscore = BoxScore(game_id=game["gameId"]).get_dict()["game"]
+                    boxscore = BoxScore(
+                        game_id=game["gameId"]).get_dict()["game"]
 
                     for player in boxscore["homeTeam"]["players"]:
-                        minutes = player["statistics"]["minutes"][2:-1].split("M")
+                        minutes = player["statistics"]["minutes"][2:-
+                                                                  1].split("M")
                         minutes = int(minutes[0]) + float(minutes[1]) / 60
                         if minutes < 1:
                             continue
@@ -169,7 +173,8 @@ def get_game(team, polybar=False, fire=False):
                             home_fire += "🔥"
 
                     for player in boxscore["awayTeam"]["players"]:
-                        minutes = player["statistics"]["minutes"][2:-1].split("M")
+                        minutes = player["statistics"]["minutes"][2:-
+                                                                  1].split("M")
                         minutes = int(minutes[0]) + float(minutes[1]) / 60
                         if minutes < 1:
                             continue
@@ -189,8 +194,12 @@ def get_game(team, polybar=False, fire=False):
                     f"{home_fire}{out_home}  {out_status}  {out_away}{away_fire}\n"
                 )
             else:
-                out_hcode = colorize(hcode, f"{hcode}{home_fire}", False, winner == "home")
-                out_acode = colorize(acode, f"{acode}{away_fire}", False, winner == "away")
+                out_hcode = colorize(
+                    hcode, f"{hcode}{home_fire}", False, winner == "home"
+                )
+                out_acode = colorize(
+                    acode, f"{acode}{away_fire}", False, winner == "away"
+                )
 
                 out_home = colorize(
                     hcode, f"{hname} {hscore}", False, winner == "home")
