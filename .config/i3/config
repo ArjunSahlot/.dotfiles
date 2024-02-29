@@ -206,15 +206,15 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape or $mod+r
@@ -249,28 +249,23 @@ exec_always --no-startup-id external_connected && ~/.config/polybar/scripts/star
 exec_always --no-startup-id external_connected && xrandr --output eDP-1 --left-of HDMI-2
 
 # distribute workspaces to both monitors
+exec_always --no-startup-id external_connected && i3-msg "workspace 8; move workspace to output eDP-1"
 exec_always --no-startup-id external_connected && i3-msg "workspace 1; move workspace to output HDMI-2"
 exec_always --no-startup-id external_connected && i3-msg "workspace 2; move workspace to output HDMI-2"
 exec_always --no-startup-id external_connected && i3-msg "workspace 3; move workspace to output HDMI-2"
-exec_always --no-startup-id external_connected && i3-msg "workspace 4; move workspace to output HDMI-2"
-exec_always --no-startup-id external_connected && i3-msg "workspace 5; move workspace to output HDMI-2"
-exec_always --no-startup-id external_connected && i3-msg "workspace 6; move workspace to output HDMI-2"
-exec_always --no-startup-id external_connected && i3-msg "workspace 7; move workspace to output HDMI-2"
-exec_always --no-startup-id external_connected && i3-msg "workspace 9; move workspace to output HDMI-2"
-exec_always --no-startup-id external_connected && i3-msg "workspace 8; move workspace to output eDP-1"
 
 # if HDMI-2 is disconnected:
 exec_always --no-startup-id external_disconnected && xrandr --output HDMI-2 --off
 exec_always --no-startup-id external_disconnected && ~/.config/polybar/scripts/start.sh --only-primary &
 
 # move all workspaces to eDP-1
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 1; move workspace to output eDP-1"
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 2; move workspace to output eDP-1"
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 3; move workspace to output eDP-1"
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 4; move workspace to output eDP-1"
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 5; move workspace to output eDP-1"
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 6; move workspace to output eDP-1"
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 7; move workspace to output eDP-1"
-exec_always --no-startup-id external_disconnected && i3-msg "workspace 8; move workspace to output eDP-1"
 exec_always --no-startup-id external_disconnected && i3-msg "workspace 9; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 8; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 7; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 6; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 5; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 4; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 3; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 2; move workspace to output eDP-1"
+exec_always --no-startup-id external_disconnected && i3-msg "workspace 1; move workspace to output eDP-1"
 

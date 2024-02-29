@@ -1,6 +1,6 @@
-vim.opt.wrap = true        -- Wrap text
+vim.opt.wrap = true -- Wrap text
 vim.opt.breakindent = true -- Match indent on line break
-vim.opt.linebreak = true   -- Line break on whole words
+vim.opt.linebreak = true -- Line break on whole words
 
 -- Allow motions between wrapped lines
 vim.keymap.set("n", "j", "gj")
@@ -12,11 +12,6 @@ vim.keymap.set("n", "^", "g^")
 vim.keymap.set("v", "j", "gj")
 vim.keymap.set("v", "k", "gk")
 
--- disable line numbers
-vim.opt.number = false
-vim.opt.relativenumber = false
-
 -- Spell check
-vim.opt.spelllang = 'en_us'
+vim.opt.spelllang = "en_us"
 vim.opt.spell = true
-

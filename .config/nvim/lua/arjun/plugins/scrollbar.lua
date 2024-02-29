@@ -1,5 +1,5 @@
 return {
-    {
-        "lewis6991/satellite.nvim",
-    }
+  {
+    "lewis6991/satellite.nvim",
+  },
 }

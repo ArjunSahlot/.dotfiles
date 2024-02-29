@@ -20,6 +20,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
 export MODULAR_HOME="/home/arjun/.modular"
 export LESS='-R'
+export LESSOPEN='|~/.lessfilter %s'
 export PYGMENTIZE_STYLE='one-dark'
 export VISUAL=nvim
 export EDITOR=nvim
@@ -42,7 +43,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-eval "$(SHELL=/bin/sh lesspipe)"
+eval "$(lesspipe)" 
 eval "$(zoxide init bash)"
 eval "$(thefuck --alias)"
 eval "$(github-copilot-cli alias -- "$0")"

@@ -35,5 +35,3 @@ vim.opt.mouse = "a"
 
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
-

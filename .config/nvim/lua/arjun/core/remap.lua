@@ -3,8 +3,18 @@ vim.g.mapleader = " "
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "j", [[j<Cmd>nohlsearch<CR><Cmd>lua require('hlslens').stop()<CR>]], { noremap = true, silent = true })
-vim.keymap.set("n", "k", [[k<Cmd>nohlsearch<CR><Cmd>lua require('hlslens').stop()<CR>]], { noremap = true, silent = true })
+vim.keymap.set(
+  "n",
+  "j",
+  [[j<Cmd>nohlsearch<CR><Cmd>lua require('hlslens').stop()<CR>]],
+  { noremap = true, silent = true }
+)
+vim.keymap.set(
+  "n",
+  "k",
+  [[k<Cmd>nohlsearch<CR><Cmd>lua require('hlslens').stop()<CR>]],
+  { noremap = true, silent = true }
+)
 vim.keymap.set("n", "<Esc>", [[<Esc><Cmd>nohlsearch<CR>]], { noremap = true, silent = true })
 
 -- vim.keymap.set("n", "J", "mzJ`z")
@@ -22,7 +32,6 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 -- copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
-
 
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
@@ -44,7 +53,7 @@ vim.keymap.set("n", "<leader>W", [[:%s/\<<C-r><C-a>\>/<C-r><C-a>/gI<Left><Left><
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+  vim.cmd("so")
 end)
 
 -- fix macros
