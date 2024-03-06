@@ -106,7 +106,8 @@ return {
         automatic_installation = true,
       })
 
-      local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+      lsp_capabilities = vim.tbl_deep_extend('force', lsp_capabilities, require("cmp_nvim_lsp").default_capabilities())
 
       require("mason-lspconfig").setup_handlers({
         function(server_name)
@@ -234,17 +235,10 @@ return {
       })
 
       require("lint").linters_by_ft = {
-        markdown = { "markdownlint", "codespell" },
-        text = { "codespell" },
-        python = { "flake8", "mypy" },
-        cpp = { "clangtidy" },
-        c = { "clangtidy" },
-        go = { "golangcilint" },
-        javascript = { "eslint_d" },
-        typescript = { "eslint_d" },
-        json = { "jsonlint" },
-        yaml = { "yamllint" },
-        sh = { "shellcheck" },
+        -- markdown = { "markdownlint", "codespell" },
+        -- text = { "codespell" },
+        -- yaml = { "yamllint" },
+        -- sh = { "shellcheck" },
       }
 
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {

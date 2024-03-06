@@ -27,6 +27,11 @@ export EDITOR=nvim
 export HISTSIZE=100000
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 
+# tmux history compatibility
+export HISTCONTROL=ignoredups:erasedups
+shopt -s histappend
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
 export PERL5LIB=$PERL5LIB:/home/arjun/perl5/lib/perl5
 export PERL_LOCAL_LIB_ROOT=$PERL_LOCAL_LIB_ROOT:/home/arjun/perl5
 export PERL_MB_OPT="--install_base \"/home/arjun/perl5\""

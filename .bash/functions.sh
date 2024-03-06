@@ -28,8 +28,8 @@ function newcomp() {
 function runcpp() {
 	filename=$(basename -- "$1")
 	filename=$(basename $filename .cpp)
-	g++ -o $filename $@
-	./$filename
+	g++ -o $filename $1
+	./$filename $2 $3 $4 $5 $6 $7 $8 $9
 }
 
 function rmcomp() {

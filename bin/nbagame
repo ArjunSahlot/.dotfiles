@@ -189,7 +189,7 @@ def get_game(team, polybar=False, fire=False):
                     hcode, f"{hcode} {hscore}", True, winner == "home")
                 out_away = colorize(
                     acode, f"{ascore} {acode}", True, winner == "away")
-                out_status = colorize("#FF5577", "󰻃 ", True) + status
+                out_status = status
                 string += (
                     f"{home_fire}{out_home}  {out_status}  {out_away}{away_fire}\n"
                 )

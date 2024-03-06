@@ -250,9 +250,14 @@ exec_always --no-startup-id external_connected && xrandr --output eDP-1 --left-o
 
 # distribute workspaces to both monitors
 exec_always --no-startup-id external_connected && i3-msg "workspace 8; move workspace to output eDP-1"
-exec_always --no-startup-id external_connected && i3-msg "workspace 1; move workspace to output HDMI-2"
-exec_always --no-startup-id external_connected && i3-msg "workspace 2; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 9; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 7; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 6; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 5; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 4; move workspace to output HDMI-2"
 exec_always --no-startup-id external_connected && i3-msg "workspace 3; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 2; move workspace to output HDMI-2"
+exec_always --no-startup-id external_connected && i3-msg "workspace 1; move workspace to output HDMI-2"
 
 # if HDMI-2 is disconnected:
 exec_always --no-startup-id external_disconnected && xrandr --output HDMI-2 --off
@@ -268,4 +273,7 @@ exec_always --no-startup-id external_disconnected && i3-msg "workspace 4; move w
 exec_always --no-startup-id external_disconnected && i3-msg "workspace 3; move workspace to output eDP-1"
 exec_always --no-startup-id external_disconnected && i3-msg "workspace 2; move workspace to output eDP-1"
 exec_always --no-startup-id external_disconnected && i3-msg "workspace 1; move workspace to output eDP-1"
+
+# switch to workspace 1
+exec_always --no-startup-id i3-msg "workspace 1"
 
