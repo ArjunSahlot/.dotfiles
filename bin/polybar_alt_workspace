@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Path to the symlink of your i3 config
+SYMLINK_CONFIG="$HOME/.config/i3/config"
+
+# Path to your alternate config
+ALTMOD_CONFIG="$HOME/.config/i3/config.alt"
+
+# Check if the symlink points to the alternate config
+if [ "$(readlink -f $SYMLINK_CONFIG)" = "$ALTMOD_CONFIG" ]; then
+    echo "  |ALT|"
+fi
+

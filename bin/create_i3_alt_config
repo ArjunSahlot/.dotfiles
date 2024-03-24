@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+
+from pathlib import Path
+
+I3DIR = Path.home() / '.config/i3'
+DEFAULT_CONFIG = I3DIR / 'config.default'
+ALT_CONFIG = I3DIR / 'config.alt'
+
+def main():
+    if not I3DIR.exists():
+        return
+
+    if not DEFAULT_CONFIG.exists():
+        return
+
+    config_content = DEFAULT_CONFIG.read_text()
+    config_content = config_content.replace('set $mod Mod1', 'set $mod Mod4')
+
+    ALT_CONFIG.write_text(config_content)
+
+
+if __name__ == '__main__':
+    main()

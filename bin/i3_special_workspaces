@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# Define the paths to your i3 config files and the active config symlink
+CONFIG_DIR="$HOME/.config/i3"
+DEFAULT_CONFIG="$CONFIG_DIR/config.default"
+ALT_CONFIG="$CONFIG_DIR/config.alt"
+ACTIVE_CONFIG_SYMLINK="$CONFIG_DIR/config"
+
+# Define workspaces that require a different modifier key as a space-separated list
+SPECIAL_WORKSPACES="9 10"
+
+# Function to switch config by updating symlink
+switch_config() {
+    local target_config=$1
+    if [ "$(readlink $ACTIVE_CONFIG_SYMLINK)" != "$target_config" ]; then
+        ln -sf $target_config $ACTIVE_CONFIG_SYMLINK
+        i3-msg reload
+    fi
+}
+
+# Check if a workspace is in the list of special workspaces
+workspace_is_special() {
+    for ws in $SPECIAL_WORKSPACES; do
+        if [ "$1" = "$ws" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+# Listen for workspace changes and switch config accordingly
+i3-msg -t subscribe -m "[\"workspace\"]" | while read -r line; do
+    event=$(echo $line | jq '.change')
+    current_workspace=$(echo $line | jq '.current.name' | tr -d '"')
+
+    if [ "$event" != "\"focus\"" ]; then
+        continue
+    fi
+    
+    # Determine if we are entering or leaving a special workspace
+    current_is_special=$(workspace_is_special $current_workspace && echo true || echo false)
+
+    # Switch config based on the context of entering or leaving a special workspace
+    if [ "$current_is_special" = "true" ]; then
+        switch_config $ALT_CONFIG
+    else
+        switch_config $DEFAULT_CONFIG
+    fi
+done
+

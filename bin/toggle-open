@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: toggle-open <program_name>"
+  echo "toggle-open: Invalid number of arguments" > ~/toggle-open.log
+  exit 1
+fi
+
+PROGRAM_NAME="$1"
+PIDS=$(pgrep -fl "$PROGRAM_NAME")
+
+echo "PROGRAM_NAME: $PROGRAM_NAME" > ~/toggle-open.log
+echo "PIDS: $PIDS" >> ~/toggle-open.log
+
+if [ -z "$PIDS" ]; then
+  echo "$PROGRAM_NAME is not running. Starting it..."
+
+  echo "Starting $PROGRAM_NAME" >> ~/toggle-open.log
+  $PROGRAM_NAME &
+else
+  echo "$PROGRAM_NAME is already running. Closing it..."
+
+  for PID in $PIDS; do
+      COMMAND=$(ps -p $PID -o comm | sed -n 2p)
+      INFO=$(ps -p $PID -o pid,cmd)
+      echo "----KILLING----$COMMAND----" >> ~/toggle-open.log
+      echo "$INFO" >> ~/toggle-open.log
+      kill $PID
+  done
+fi
+

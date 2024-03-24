@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+
+import argparse
+import re
+
+
+def hex_to_rgb(hex):
+    # '#rrggbb' -> (r, g, b)
+    r = int(hex[1:3], 16)
+    g = int(hex[3:5], 16)
+    b = int(hex[5:7], 16)
+    return (r, g, b)
+
+
+def rgb_to_hex(rgb):
+    # (r, g, b) -> '#rrggbb'
+    return '#{:02x}{:02x}{:02x}'.format(*rgb)
+
+
+def rgb_to_cmyk(rgb):
+    # (r, g, b) -> (c, m, y, k)
+    r, g, b = [x / 255 for x in rgb]
+    k = 1 - max(r, g, b)
+    c = (1 - r - k) / (1 - k)
+    m = (1 - g - k) / (1 - k)
+    y = (1 - b - k) / (1 - k)
+    return (c, m, y, k)
+
+
+def cmyk_to_rgb(cmyk):
+    # (c, m, y, k) -> (r, g, b)
+    c, m, y, k = cmyk
+    r = 255 * (1 - c) * (1 - k)
+    g = 255 * (1 - m) * (1 - k)
+    b = 255 * (1 - y) * (1 - k)
+    return (r, g, b)
+
+
+def rgb_to_hls(rgb):
+    # (r, g, b) -> (h, l, s)
+    r, g, b = [x / 255 for x in rgb]
+    h, l, s = colorsys.rgb_to_hls(r, g, b)
+    return (h * 360, l * 100, s * 100)
+
+
+def hls_to_rgb(hls):
+    # (h, l, s) -> (r, g, b)
+    h, l, s = [x / 100 for x in hls]
+    r, g, b = colorsys.hls_to_rgb(h / 360, l, s)
+    return (int(r * 255), int(g * 255), int(b * 255))
+
+
+def rgb_to_yiq(rgb):
+    # (r, g, b) -> (y, i, q)
+    r, g, b = [x / 255 for x in rgb]
+    y = 0.299 * r + 0.587 * g + 0.114 * b
+    i = 0.596 * r - 0.275 * g - 0.321 * b
+    q = 0.212 * r - 0.523 * g + 0.311 * b
+    return (y, i, q)
+
+
+def yiq_to_rgb(yiq):
+    # (y, i, q) -> (r, g, b)
+    y, i, q = yiq
+    r = y + 0.956 * i + 0.621 * q
+    g = y - 0.272 * i - 0.647 * q
+    b = y - 1.106 * i + 1.703 * q
+    return (int(r * 255), int(g * 255), int(b * 255))
+
+
+def detect_color_type(color):
+    if color.startswith('#'):
+        return 'hex'
+    elif "," in color:
+        return 'rgb'
+    else:
+        return 'unknown'
+
+
+def format_color(color, color_type):
+    if color_type == 'hex':
+        return color
+    else:
+        pattern = re.compile(r"\d*\.?\d*, ?\d*\.?\d*, ?\d*\.?\d*")
+        match = pattern.search(color)
+        if match:
+            return tuple(map(int, color.split(',')))
+        else:
+            return 'unknown'
+
+
+def term_reset():
+    return "\x1b[0m"
+
+
+def term_fg(hex_color):
+    rgb = tuple(int(hex_color[i: i + 2], 16) for i in (1, 3, 5))
+    return f"\x1b[38;2;{rgb[0]};{rgb[1]};{rgb[2]}m"
+
+
+def output(out_color, style_color, colored):
+    out_color = str(out_color).upper()
+    if colored:
+        print(
+            term_fg(style_color) +
+            out_color +
+            term_reset()
+        )
+    else:
+        print(out_color)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('colors', nargs='+')
+    parser.add_argument('-r', '--rgb', action='store_true')
+    parser.add_argument('-x', '--hex', action='store_true')
+    parser.add_argument('-c', '--cmyk', action='store_true')
+    parser.add_argument('-l', '--hls', action='store_true')
+    parser.add_argument('-y', '--yiq', action='store_true')
+    parser.add_argument('-i', '--input', choices=['hex', 'rgb', 'cmyk', 'hls', 'yiq'], default=None)
+    parser.add_argument('-C', '--colored', action='store_true')
+    args = parser.parse_args()
+
+    for color in args.colors:
+        color_type = args.input or detect_color_type(color)
+        color = format_color(color, color_type)
+
+        if color_type == "rgb":
+            rgb = color
+        else:
+            to_rgb = globals()['{}_to_rgb'.format(color_type)]
+            rgb = to_rgb(color)
+
+        hex = rgb_to_hex(rgb)
+
+        if args.rgb:
+            output(rgb, hex, args.colored)
+        if args.hex:
+            output(rgb_to_hex(rgb), hex, args.colored)
+        if args.cmyk:
+            output(rgb_to_cmyk(rgb), hex, args.colored)
+        if args.hls:
+            output(rgb_to_hls(rgb), hex, args.colored)
+        if args.yiq:
+            output(rgb_to_yiq(rgb), hex, args.colored)
+
+
+if __name__ == '__main__':
+    main()
+
