@@ -13,7 +13,7 @@
   "gitignore.nvim": { "branch": "master", "commit": "6f541c1fab844c5ddf6971872bd3a9861abca20d" },
   "gitsigns.nvim": { "branch": "main", "commit": "2c2463dbd82eddd7dbab881c3a62cfbfbe3c67ae" },
   "goyo.vim": { "branch": "master", "commit": "fa0263d456dd43f5926484d1c4c7022dfcb21ba9" },
-  "harpoon": { "branch": "harpoon2", "commit": "a38be6e0dd4c6db66997deab71fc4453ace97f9c" },
+  "grapple.nvim": { "branch": "main", "commit": "5d96868a6e9791b7a8ee51a9eef43fc408b9650e" },
   "icon-picker.nvim": { "branch": "master", "commit": "3ee9a0ea9feeef08ae35e40c8be6a2fa2c20f2d3" },
   "image.nvim": { "branch": "master", "commit": "0dd8bdbb8855bc98c534a902c91dc9eddb8155b1" },
   "indent-blankline.nvim": { "branch": "master", "commit": "821a7acd88587d966f7e464b0b3031dfe7f5680c" },
