@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+# use feh to set the background image
+# create a temp file with the image if color
+
+import argparse
+import subprocess
+
+from PIL import Image
+
+parser = argparse.ArgumentParser(description='Set the background image')
+parser.add_argument('--image', '-i', required=False, help='The image to set as the background', type=str)
+parser.add_argument('--color', '-c', required=False, help='The color to set as the background', type=str)
+args = parser.parse_args()
+
+if args.image:
+    subprocess.run(['feh', '--bg-fill', args.image])
+elif args.color:
+    img = Image.new('RGB', (1, 1), color=args.color)
+    img.save('/tmp/bg.png')
+    subprocess.run(['feh', '--bg-tile', '/tmp/bg.png'])
+
