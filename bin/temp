@@ -74,6 +74,10 @@ if args.edit:
 if args.new:
     if path.is_file():
         shutil.copyfile(path, input(f"Where do you want to copy {'/'.join(args.path)} to: "))
+
+        # debug is paired with cpp
+        if path.name == "cpp":
+            shutil.copyfile(path.parent / "debug", "debug.hpp")
         print("Success")
     else:
         print(f"Invalid template path: {path}")

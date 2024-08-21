@@ -20,7 +20,7 @@ return {
       vim.keymap.set("n", "<leader>st", builtin.treesitter, {})
       vim.keymap.set("n", "<leader>sc", builtin.commands, {})
       vim.keymap.set("n", "<leader>sb", builtin.builtin, {})
-      vim.keymap.set("n", "<leader>sk", builtin.keymaps, {})
+      vim.keymap.set("n", "<leader>fk", builtin.keymaps, {})
 
       require("telescope").load_extension("ui-select")
       require("telescope").load_extension("fzf")

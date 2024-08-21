@@ -1,5 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/env bash
 
-import pyperclip
+extension="$1"
+if [ $# -eq 0 ]; then
+    extension="txt"
+fi
+tmpfile=$(mktemp --suffix=."$extension")
 
-https://stackoverflow.com/questions/6309587/how-to-launch-an-editor-e-g-vim-from-a-python-script
+nvim "$tmpfile"
+
+cat "$tmpfile" | xclip -selection clipboard
+
+rm "$tmpfile"

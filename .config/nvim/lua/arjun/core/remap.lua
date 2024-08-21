@@ -67,29 +67,6 @@ vim.keymap.set("n", "<Up>", "q: <Up>")
 vim.keymap.set("x", ">", ">gv")
 vim.keymap.set("x", "<", "<gv")
 
--- FASTWRAP IN AUTOPAIR PLUGIN ALREADY DOES THIS --
-
--- add ending bracket to the end of the full word
--- vim.keymap.set({"i", "n"}, "<M-w>", function()
---     local char = vim.fn.getline("."):sub(vim.fn.col("."), vim.fn.col("."))
---
---     if char ~= "(" and char ~= "[" and char ~= "{" and char ~= "<" then
---         vim.cmd("normal! B")
---     end
---
---     char = vim.fn.getline("."):sub(vim.fn.col("."), vim.fn.col("."))
---     vim.cmd("normal! vy")
---
---     if char == "(" then
---         vim.cmd("normal! Epr)")
---     elseif char == "[" then
---         vim.cmd("normal! Epr]")
---     elseif char == "{" then
---         vim.cmd("normal! Epr}")
---     elseif char == "<" then
---         vim.cmd("normal! Epr>")
---     else
---         vim.notify("Not a bracket", vim.log.levels.INFO)
---     end
--- end)
---
+-- quickfix
+vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")

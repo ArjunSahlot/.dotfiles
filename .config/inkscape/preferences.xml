@@ -118,8 +118,8 @@
          id="rect"
          style="fill:blue;"
          usecurrent="1"
-         width="37.7952755905512"
-         height="188.976377952756" />
+         width="377.952755905512"
+         height="377.952755905512" />
       <eventcontext
          id="3dbox"
          style="stroke:none;stroke-linejoin:round;"
@@ -153,11 +153,11 @@
       <eventcontext
          id="arc"
          style="fill:red;"
-         end="0"
+         end="358.874956850855"
          start="0"
          usecurrent="1"
-         rx="33.2146111435777"
-         ry="28.8882902851254" />
+         rx="13.337721336545"
+         ry="15.6576369878814" />
       <eventcontext
          id="star"
          magnitude="3"
@@ -617,13 +617,16 @@
       <group
          id="batchexportarea"
          value="layer" />
+      <group
+         id="defaultdpi"
+         value="96.0999984741211" />
     </group>
     <group
        id="save_as"
        default="org.inkscape.output.svg.inkscape"
        append_extension="1"
        enable_preview="1"
-       path="/home/arjun/work/programming/github/field_visualizer/src/assets"
+       path="/home/arjun/work/programming/github/CSAMinesweeper/assets"
        use_current_dir="1" />
     <group
        id="save_copy"
@@ -994,7 +997,7 @@
      org.inkscape.template.other.unit="px" />
   <group
      id="desktop"
-     style="fill:#bebebe;stroke-width:3.36">
+     style="fill:#949494;stroke-width:3.36">
     <group
        width="640"
        height="480"

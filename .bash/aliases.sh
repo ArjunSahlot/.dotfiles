@@ -27,3 +27,4 @@ alias wezconf='vim ~/.config/wezterm/'
 alias starconf='vim ~/.config/starship.toml'
 alias polyconf='vim ~/.config/polybar/config'
 alias ports="netstat -tuln"
+alias wine-stable="wine"

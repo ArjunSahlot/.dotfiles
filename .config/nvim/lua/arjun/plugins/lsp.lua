@@ -73,6 +73,32 @@ return {
         vim.keymap.set("n", "<leader>lr", function()
           vim.diagnostic.reset()
         end, opts)
+        vim.keymap.set("n", "<leader>lt", function()
+          vim.diagnostic.toggle()
+        end)
+
+        local check_lsp_diag_enabled = function()
+          local ok, result = pcall(vim.api.nvim_buf_get_var, 0, "lsp_diag_enabled")
+          if not ok then
+            return true
+          end
+          return result
+        end
+
+        vim.diagnostic.toggle = function()
+          if check_lsp_diag_enabled() then
+            vim.api.nvim_buf_set_var(0, "lsp_diag_enabled", false)
+          else
+            vim.api.nvim_buf_set_var(0, "lsp_diag_enabled", true)
+          end
+          vim.diagnostic.reset(nil, bufnr)
+        end
+
+        vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+          underline = check_lsp_diag_enabled,
+          virtual_text = check_lsp_diag_enabled,
+          sign = check_lsp_diag_enabled,
+        })
 
         vim.keymap.set({ "n", "v" }, "<leader>f", function()
           local clients = vim.lsp.get_active_clients({ bufnr = bufnr })

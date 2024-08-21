@@ -29,6 +29,9 @@ return {
       end, {
         silent = true,
       })
+      vim.keymap.set("n", "<leader>ct", function()
+        require("copilot.suggestion").toggle_auto_trigger()
+      end)
     end,
   },
 }

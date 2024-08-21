@@ -50,7 +50,7 @@ scroll-up = i3.next
 scroll-down = i3.prev
 
 modules-left = left filesystem slash slash fanspeed space space temperature slash slash cpu space space memory slash slash backlight space space battery slash slash i3 right
-modules-center = left github right 
+modules-center = left gmail slash slash github right 
 modules-right = left audio-output space space audio-input slash slash wifi slash slash date-time right
 
 wm-restock = i3
