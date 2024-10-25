@@ -65,3 +65,7 @@ function getdomain() {
 		echo -en "$_ip > $_asn\\n"
 	fi
 }
+
+function cheat() {
+	curl cheat.sh/$1
+}
