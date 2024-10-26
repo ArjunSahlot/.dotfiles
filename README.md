@@ -4,7 +4,7 @@ My dotfiles. If you have any ideas, please let me know!
 ## Some that you may be interested in:
 * [Neovim config](https://github.com/ArjunSahlot/.dotfiles/tree/main/.config/nvim) (tweaked++++, too many plugins)
 * [Tmux config](https://github.com/ArjunSahlot/.dotfiles/tree/main/.config/tmux) (tweaked+)
-* [i3 config](https://github.com/ArjunSahlot/.dotfiles/tree/main/.config/i3) (tweaked+)
+* [i3 config](https://github.com/ArjunSahlot/.dotfiles/tree/main/.config/i3) (tweaked+++)
 * [Polybar config](https://github.com/ArjunSahlot/.dotfiles/tree/main/.config/polybar) (tweaked+++, inspired by [@Vallen217](https://github.com/Vallen217/dotfiles/))
 * [Wezterm config](https://github.com/ArjunSahlot/.dotfiles/tree/main/.config/wezterm) (tweaked++)
 * [Starship config](https://github.com/ArjunSahlot/.dotfiles/tree/main/.config/starship.toml) (tweaked++)
